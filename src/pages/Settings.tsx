@@ -13,14 +13,14 @@ import { PageProps } from './pageTypes'
 
 function Section({ title, description, children }: { title: string; description: string; children: ReactNode }) {
   return (
-    <details className="rounded-[28px] border border-white/80 bg-white/95 p-5 shadow-soft ring-1 ring-slate-200/50" open>
+    <details className="rounded-2xl border border-white/80 bg-white/95 p-4 shadow-soft ring-1 ring-slate-200/50 sm:rounded-[28px] sm:p-5" open>
       <summary className="cursor-pointer list-none">
         <div>
-          <h3 className="text-2xl font-black tracking-tight text-slate-950">{title}</h3>
-          <p className="mt-1 text-sm text-muted-foreground">{description}</p>
+          <h3 className="text-xl font-black tracking-tight text-slate-950 sm:text-2xl">{title}</h3>
+          <p className="mt-1 text-xs text-muted-foreground sm:text-sm">{description}</p>
         </div>
       </summary>
-      <div className="mt-5 space-y-4">{children}</div>
+      <div className="mt-4 space-y-3 sm:mt-5 sm:space-y-4">{children}</div>
     </details>
   )
 }
@@ -142,10 +142,10 @@ export function Settings({ data, setData, month, notify }: PageProps) {
   }
 
   return (
-    <div className="space-y-7">
+    <div className="space-y-4 sm:space-y-7">
       <div>
-        <h2 className="text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">Settings</h2>
-        <p className="mt-2 text-muted-foreground">Manage salary, OT calculation, bonus pay, privacy, and local data.</p>
+        <h2 className="text-2xl font-black tracking-tight text-slate-950 sm:text-4xl">Settings</h2>
+        <p className="mt-1 text-sm text-muted-foreground sm:mt-2 sm:text-base">Manage salary, OT calculation, bonus pay, privacy, and local data.</p>
       </div>
 
       <Section title="Salary" description="Set your current salary and salary history.">
@@ -158,7 +158,7 @@ export function Settings({ data, setData, month, notify }: PageProps) {
         <div className="grid gap-2">
           <p className="font-bold text-slate-950">Salary History</p>
           {[...data.salaryHistory].sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate)).slice(0, 6).map((row) => (
-            <div key={row.id} className="flex items-center justify-between rounded-xl bg-muted p-4">
+            <div key={row.id} className="flex items-center justify-between rounded-xl bg-muted p-3 text-sm sm:p-4 sm:text-base">
               <span className="font-medium">{row.effectiveDate}</span>
               <b>{money(row.salary, data.settings)}</b>
             </div>
@@ -200,11 +200,11 @@ export function Settings({ data, setData, month, notify }: PageProps) {
       </Section>
 
       <Section title="Budget Allocation" description="Set percentage-based category budgets from this month's income.">
-        <div className="rounded-2xl bg-muted p-4">
+        <div className="rounded-2xl bg-muted p-3 sm:p-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <p className="text-lg font-bold text-slate-950">Total Allocation: {totalAllocation.toFixed(1)}%</p>
-              <p className="text-sm text-muted-foreground">Preview uses {money(budget.monthlyIncome, data.settings)} monthly income for {month}.</p>
+              <p className="text-base font-bold text-slate-950 sm:text-lg">Total Allocation: {totalAllocation.toFixed(1)}%</p>
+              <p className="text-xs text-muted-foreground sm:text-sm">Preview uses {money(budget.monthlyIncome, data.settings)} monthly income for {month}.</p>
             </div>
             <Badge tone={allocationStatus.status === 'balanced' ? 'green' : allocationStatus.status === 'over' ? 'red' : 'orange'}>{allocationStatus.message}</Badge>
           </div>
@@ -215,16 +215,16 @@ export function Settings({ data, setData, month, notify }: PageProps) {
             const percent = allocation?.allocationPercent ?? 0
             const active = allocation?.isActive ?? item.isActive
             return (
-              <div key={item.id} className="rounded-2xl border border-border bg-white p-4">
+              <div key={item.id} className="rounded-2xl border border-border bg-white p-3 sm:p-4">
                 <div className="grid gap-3 md:grid-cols-[1.2fr_0.8fr_0.8fr_0.8fr_auto] md:items-center">
                   <div>
-                    <p className="text-lg font-bold text-slate-950">{item.name}</p>
-                    <p className="text-sm capitalize text-muted-foreground">{item.type}</p>
+                    <p className="text-base font-bold text-slate-950 sm:text-lg">{item.name}</p>
+                    <p className="text-xs capitalize text-muted-foreground sm:text-sm">{item.type}</p>
                   </div>
                   <label className="text-sm font-semibold text-slate-700">Percent<Input type="number" min="0" step="0.1" value={percent} onChange={(event) => updateAllocation(item.id, Number(event.target.value))} /></label>
                   <div>
-                    <p className="text-sm text-muted-foreground">Preview Amount</p>
-                    <p className="text-xl font-bold">{money(calculateCategoryBudgetAmount(budget.monthlyIncome, percent), data.settings)}</p>
+                    <p className="text-xs text-muted-foreground sm:text-sm">Preview Amount</p>
+                    <p className="text-lg font-bold sm:text-xl">{money(calculateCategoryBudgetAmount(budget.monthlyIncome, percent), data.settings)}</p>
                   </div>
                   <label className="flex items-center gap-3 text-sm font-semibold text-slate-700"><input className="h-5 w-5 accent-blue-800" type="checkbox" checked={active} onChange={(event) => toggleAllocation(item.id, event.target.checked)} />Active</label>
                   {!item.isDefault ? <Button variant="destructive" onClick={() => setData({ ...data, expenseCategories: data.expenseCategories.filter((categoryItem) => categoryItem.id !== item.id), budgetAllocations: data.budgetAllocations.filter((budgetItem) => budgetItem.categoryId !== item.id) })}>Delete</Button> : null}
@@ -237,7 +237,7 @@ export function Settings({ data, setData, month, notify }: PageProps) {
 
       <Section title="Budget Settings" description="Manage expense categories and recurring expenses.">
         <Card className="shadow-none">
-          <p className="text-lg font-bold text-slate-950">Add Category</p>
+          <p className="text-base font-bold text-slate-950 sm:text-lg">Add Category</p>
           <div className="mt-4 grid gap-4 md:grid-cols-4">
             <label className="text-sm font-semibold text-slate-700">Name<Input value={category.name} onChange={(event) => setCategory({ ...category, name: event.target.value, updatedAt: new Date().toISOString() })} /></label>
             <label className="text-sm font-semibold text-slate-700">Type<Select value={category.type} onChange={(event) => setCategory({ ...category, type: event.target.value as ExpenseCategory['type'] })}><option value="spending">Spending</option><option value="saving">Saving</option><option value="investment">Investment</option></Select></label>
@@ -246,7 +246,7 @@ export function Settings({ data, setData, month, notify }: PageProps) {
           </div>
         </Card>
         <Card className="shadow-none">
-          <p className="text-lg font-bold text-slate-950">Recurring Expenses</p>
+          <p className="text-base font-bold text-slate-950 sm:text-lg">Recurring Expenses</p>
           <div className="mt-4 grid gap-4 md:grid-cols-5">
             <label className="text-sm font-semibold text-slate-700">Category<Select value={recurring.categoryId} onChange={(event) => setRecurring({ ...recurring, categoryId: event.target.value })}>{data.expenseCategories.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</Select></label>
             <label className="text-sm font-semibold text-slate-700">Title<Input value={recurring.title} onChange={(event) => setRecurring({ ...recurring, title: event.target.value })} /></label>
@@ -256,7 +256,7 @@ export function Settings({ data, setData, month, notify }: PageProps) {
           </div>
           <div className="mt-4 space-y-2">
             {data.recurringExpenses.map((item) => (
-              <div key={item.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-muted p-4">
+              <div key={item.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-muted p-3 text-sm sm:p-4 sm:text-base">
                 <div><p className="font-semibold">{item.title}</p><p className="text-sm text-muted-foreground">{data.expenseCategories.find((categoryItem) => categoryItem.id === item.categoryId)?.name} - day {item.dayOfMonth}</p></div>
                 <div className="flex items-center gap-2">
                   <b>{money(item.amount, data.settings)}</b>
@@ -278,9 +278,9 @@ export function Settings({ data, setData, month, notify }: PageProps) {
       </Section>
 
       <Section title="Data Management" description="Back up, restore, reset, or clear local browser data.">
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <Button onClick={() => downloadText('workpay-backup.json', exportJson(data), 'application/json')}>Export JSON</Button>
-          <label className="inline-flex min-h-12 cursor-pointer items-center rounded-xl border border-input bg-white px-5 py-3 text-base font-semibold text-primary shadow-sm hover:bg-accent">Import JSON<input type="file" accept="application/json" className="hidden" onChange={(event) => importBackup(event.target.files?.[0])} /></label>
+          <label className="inline-flex min-h-11 cursor-pointer items-center justify-center rounded-xl border border-input bg-white px-4 py-2.5 text-sm font-semibold text-primary shadow-sm hover:bg-accent sm:min-h-12 sm:px-5 sm:py-3 sm:text-base">Import JSON<input type="file" accept="application/json" className="hidden" onChange={(event) => importBackup(event.target.files?.[0])} /></label>
           <Button variant="secondary" onClick={() => { setData(resetSampleData()); notify('Demo data reset') }}>Reset Demo Data</Button>
           <Button variant="destructive" onClick={() => { if (confirm('Clear all local data?')) { setData(clearAllData()); notify('All data cleared') } }}>Clear All Data</Button>
         </div>

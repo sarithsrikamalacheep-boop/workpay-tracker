@@ -27,11 +27,11 @@ export function MonthlySummary({ data, month, setMonth }: PageProps) {
   const avgIncomePerRecordedDay = summary.grossIncome / Math.max(1, rows.length)
 
   return (
-    <div className="space-y-7">
-      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+    <div className="space-y-4 sm:space-y-7">
+      <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">Monthly Summary</h2>
-          <p className="mt-2 text-muted-foreground">See where this month&apos;s income comes from and which days had OT.</p>
+          <h2 className="text-2xl font-black tracking-tight text-slate-950 sm:text-4xl">Monthly Summary</h2>
+          <p className="mt-1 text-sm text-muted-foreground sm:mt-2 sm:text-base">Income, expenses, and OT for this month.</p>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="icon" onClick={() => move(-1)}><ChevronLeft size={20} /></Button>
@@ -47,11 +47,11 @@ export function MonthlySummary({ data, month, setMonth }: PageProps) {
           <CardDescription className="text-blue-100">Estimated income from saved salary, OT, and extra pay records</CardDescription>
         </CardHeader>
         <CardContent>
-          <p className="text-5xl font-bold tracking-tight sm:text-6xl">{money(summary.grossIncome, data.settings)}</p>
+          <p className="text-4xl font-bold tracking-tight sm:text-6xl">{money(summary.grossIncome, data.settings)}</p>
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
         <StatCard title="Salary" value={money(summary.baseSalary, data.settings)} sub="Base salary for this month" icon={Banknote} tone="blue" />
         <StatCard title="OT Income" value={money(summary.otIncome, data.settings)} sub={`${numberText(summary.otHours)} hours`} icon={Clock} tone="orange" />
         <StatCard title="Bonus / Extra Pay" value={money(bonusExtra, data.settings)} sub={`${data.bonusExtraIncome.filter((item) => item.month === month && item.status !== 'expected').length} confirmed items`} icon={Gift} tone="purple" />
@@ -59,7 +59,7 @@ export function MonthlySummary({ data, month, setMonth }: PageProps) {
       </div>
 
       <Card className="bg-blue-50">
-        <p className="text-lg font-semibold text-blue-950">
+        <p className="text-sm font-semibold text-blue-950 sm:text-lg">
           This month has {numberText(summary.otHours)} OT hours worth {money(summary.otIncome, data.settings)}
           {highest ? `, with the highest OT day on ${thaiDate(highest.date)} at ${numberText(highest.otHours)} hours.` : '.'}
         </p>
@@ -71,19 +71,19 @@ export function MonthlySummary({ data, month, setMonth }: PageProps) {
           <CardDescription>Percentage-based budget plan compared with actual spending</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
-            <div className="rounded-2xl bg-emerald-50 p-4"><p className="text-emerald-700">Total Income</p><p className="mt-2 text-2xl font-bold text-emerald-800">{money(budget.monthlyIncome, data.settings)}</p></div>
-            <div className="rounded-2xl bg-amber-50 p-4"><p className="text-amber-700">Total Expenses</p><p className="mt-2 text-2xl font-bold text-amber-800">{money(budget.totalSpent, data.settings)}</p></div>
-            <div className="rounded-2xl bg-blue-50 p-4"><p className="text-blue-700">Remaining Money</p><p className="mt-2 text-2xl font-bold text-blue-800">{money(budget.moneyLeft, data.settings)}</p></div>
-            <div className="rounded-2xl bg-purple-50 p-4"><p className="text-purple-700">Total Allocation</p><p className="mt-2 text-2xl font-bold text-purple-800">{numberText(budget.totalAllocationPercent)}%</p></div>
-            <div className="rounded-2xl bg-slate-100 p-4"><p className="text-slate-600">Planned Budget</p><p className="mt-2 text-2xl font-bold text-slate-900">{money(budget.plannedBudget, data.settings)}</p></div>
+          <div className="grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-2 xl:grid-cols-5">
+            <div className="rounded-2xl bg-emerald-50 p-3 sm:p-4"><p className="text-xs text-emerald-700 sm:text-base">Total Income</p><p className="mt-1 text-xl font-bold text-emerald-800 sm:mt-2 sm:text-2xl">{money(budget.monthlyIncome, data.settings)}</p></div>
+            <div className="rounded-2xl bg-amber-50 p-3 sm:p-4"><p className="text-xs text-amber-700 sm:text-base">Total Expenses</p><p className="mt-1 text-xl font-bold text-amber-800 sm:mt-2 sm:text-2xl">{money(budget.totalSpent, data.settings)}</p></div>
+            <div className="rounded-2xl bg-blue-50 p-3 sm:p-4"><p className="text-xs text-blue-700 sm:text-base">Remaining</p><p className="mt-1 text-xl font-bold text-blue-800 sm:mt-2 sm:text-2xl">{money(budget.moneyLeft, data.settings)}</p></div>
+            <div className="rounded-2xl bg-purple-50 p-3 sm:p-4"><p className="text-xs text-purple-700 sm:text-base">Allocation</p><p className="mt-1 text-xl font-bold text-purple-800 sm:mt-2 sm:text-2xl">{numberText(budget.totalAllocationPercent)}%</p></div>
+            <div className="rounded-2xl bg-slate-100 p-3 sm:p-4"><p className="text-xs text-slate-600 sm:text-base">Planned</p><p className="mt-1 text-xl font-bold text-slate-900 sm:mt-2 sm:text-2xl">{money(budget.plannedBudget, data.settings)}</p></div>
           </div>
           <div className="mt-5 space-y-3">
             {budget.categories.map((category) => (
               <div key={category.categoryId} className="rounded-2xl border border-border bg-white p-4">
-                <div className="flex flex-wrap items-start justify-between gap-3">
+                <div className="flex flex-wrap items-start justify-between gap-2 sm:gap-3">
                   <div>
-                    <p className="text-lg font-bold text-slate-950">{category.categoryName}</p>
+                    <p className="text-base font-bold text-slate-950 sm:text-lg">{category.categoryName}</p>
                     <p className="mt-1 text-sm text-muted-foreground">
                       {numberText(category.allocationPercent)}% | Budget {money(category.budgetAmount, data.settings)} | Spent {money(category.spentAmount, data.settings)}
                     </p>
@@ -102,11 +102,11 @@ export function MonthlySummary({ data, month, setMonth }: PageProps) {
           <CardDescription>OT pay, meal allowance, and transport allowance</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-3 md:grid-cols-4">
-            <div className="rounded-2xl bg-muted p-4"><p className="text-muted-foreground">OT Pay</p><p className="mt-2 text-2xl font-bold">{money(summary.otBasePay, data.settings)}</p></div>
-            <div className="rounded-2xl bg-emerald-50 p-4"><p className="text-emerald-700">Meal Allowance</p><p className="mt-2 text-2xl font-bold text-emerald-800">{money(summary.mealAllowance, data.settings)}</p></div>
-            <div className="rounded-2xl bg-blue-50 p-4"><p className="text-blue-700">Transport Allowance</p><p className="mt-2 text-2xl font-bold text-blue-800">{money(summary.transportAllowance, data.settings)}</p></div>
-            <div className="rounded-2xl bg-amber-50 p-4"><p className="text-amber-700">Total OT Income</p><p className="mt-2 text-2xl font-bold text-amber-800">{money(summary.otIncome, data.settings)}</p></div>
+          <div className="grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-4">
+            <div className="rounded-2xl bg-muted p-3 sm:p-4"><p className="text-xs text-muted-foreground sm:text-base">OT Pay</p><p className="mt-1 text-xl font-bold sm:mt-2 sm:text-2xl">{money(summary.otBasePay, data.settings)}</p></div>
+            <div className="rounded-2xl bg-emerald-50 p-3 sm:p-4"><p className="text-xs text-emerald-700 sm:text-base">Meal</p><p className="mt-1 text-xl font-bold text-emerald-800 sm:mt-2 sm:text-2xl">{money(summary.mealAllowance, data.settings)}</p></div>
+            <div className="rounded-2xl bg-blue-50 p-3 sm:p-4"><p className="text-xs text-blue-700 sm:text-base">Transport</p><p className="mt-1 text-xl font-bold text-blue-800 sm:mt-2 sm:text-2xl">{money(summary.transportAllowance, data.settings)}</p></div>
+            <div className="rounded-2xl bg-amber-50 p-3 sm:p-4"><p className="text-xs text-amber-700 sm:text-base">Total OT</p><p className="mt-1 text-xl font-bold text-amber-800 sm:mt-2 sm:text-2xl">{money(summary.otIncome, data.settings)}</p></div>
           </div>
         </CardContent>
       </Card>
@@ -142,7 +142,7 @@ export function MonthlySummary({ data, month, setMonth }: PageProps) {
           <CardDescription>OT hours by day of month</CardDescription>
         </CardHeader>
         <CardContent>
-          <SimpleBarChart data={rows.map((row) => ({ name: row.date.slice(8), value: row.otHours }))} y="value" color="#f59e0b" height={320} />
+          <SimpleBarChart data={rows.map((row) => ({ name: row.date.slice(8), value: row.otHours }))} y="value" color="#f59e0b" height={220} />
         </CardContent>
       </Card>
 

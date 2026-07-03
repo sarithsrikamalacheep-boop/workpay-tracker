@@ -5,7 +5,7 @@ const axisStyle = { fontSize: 12, fill: '#64748b' }
 
 export function MonthlyIncomeChart({ data }: { data: MonthlySummary[] }) {
   return (
-    <ResponsiveContainer width="100%" height={300}>
+    <ResponsiveContainer width="100%" height={240}>
       <BarChart data={data} margin={{ top: 10, right: 12, left: 0, bottom: 0 }}>
         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
         <XAxis dataKey="month" tick={axisStyle} tickLine={false} axisLine={false} />
@@ -22,7 +22,7 @@ export function MonthlyIncomeChart({ data }: { data: MonthlySummary[] }) {
 
 export function OtTrendChart({ data }: { data: { month: string; otHours: number }[] }) {
   return (
-    <ResponsiveContainer width="100%" height={260}>
+    <ResponsiveContainer width="100%" height={220}>
       <LineChart data={data} margin={{ top: 10, right: 12, left: 0, bottom: 0 }}>
         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
         <XAxis dataKey="month" tick={axisStyle} tickLine={false} axisLine={false} />
@@ -37,7 +37,7 @@ export function OtTrendChart({ data }: { data: { month: string; otHours: number 
 export function IncomeBreakdownChart({ data }: { data: { name: string; value: number }[] }) {
   const colors = ['#0b3b75', '#10b981', '#8b5cf6', '#f59e0b']
   return (
-    <ResponsiveContainer width="100%" height={260}>
+    <ResponsiveContainer width="100%" height={220}>
       <PieChart>
         <Pie data={data} dataKey="value" nameKey="name" innerRadius={64} outerRadius={96} paddingAngle={4}>
           {data.map((_, index) => <Cell key={index} fill={colors[index % colors.length]} />)}
@@ -51,7 +51,7 @@ export function IncomeBreakdownChart({ data }: { data: { name: string; value: nu
 
 export function SalaryGrowthChart({ data }: { data: { effectiveDate: string; salary: number }[] }) {
   return (
-    <ResponsiveContainer width="100%" height={260}>
+    <ResponsiveContainer width="100%" height={220}>
       <AreaChart data={data}>
         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
         <XAxis dataKey="effectiveDate" tick={axisStyle} tickLine={false} axisLine={false} />
@@ -63,7 +63,7 @@ export function SalaryGrowthChart({ data }: { data: { effectiveDate: string; sal
   )
 }
 
-export function SimpleBarChart({ data, x = 'name', y = 'value', color = '#0b3b75', height = 280 }: { data: Record<string, unknown>[]; x?: string; y?: string; color?: string; height?: number }) {
+export function SimpleBarChart({ data, x = 'name', y = 'value', color = '#0b3b75', height = 220 }: { data: Record<string, unknown>[]; x?: string; y?: string; color?: string; height?: number }) {
   return (
     <ResponsiveContainer width="100%" height={height}>
       <BarChart data={data} margin={{ top: 10, right: 12, left: 0, bottom: 0 }}>
@@ -77,7 +77,7 @@ export function SimpleBarChart({ data, x = 'name', y = 'value', color = '#0b3b75
   )
 }
 
-export function DualBarChart({ data, x = 'name', first = 'income', second = 'expenses', firstName = 'Income', secondName = 'Expenses', height = 320 }: { data: Record<string, unknown>[]; x?: string; first?: string; second?: string; firstName?: string; secondName?: string; height?: number }) {
+export function DualBarChart({ data, x = 'name', first = 'income', second = 'expenses', firstName = 'Income', secondName = 'Expenses', height = 240 }: { data: Record<string, unknown>[]; x?: string; first?: string; second?: string; firstName?: string; secondName?: string; height?: number }) {
   return (
     <ResponsiveContainer width="100%" height={height}>
       <BarChart data={data} margin={{ top: 10, right: 12, left: 0, bottom: 0 }}>

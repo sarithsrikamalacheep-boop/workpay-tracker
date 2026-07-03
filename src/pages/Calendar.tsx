@@ -111,38 +111,38 @@ export function CalendarPage({ data, setData, month, setMonth, notify }: PagePro
   }
 
   return (
-    <div className="space-y-7">
-      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+    <div className="space-y-4 sm:space-y-7">
+      <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">OT Calendar</h2>
-          <p className="mt-2 text-muted-foreground">Tap a date to log OT hours, add a note, and see the daily total.</p>
+          <h2 className="text-2xl font-black tracking-tight text-slate-950 sm:text-4xl">OT Calendar</h2>
+          <p className="mt-1 text-sm text-muted-foreground sm:mt-2 sm:text-base">Tap a date to log OT hours and see the daily total.</p>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="icon" onClick={() => move(-1)}><ChevronLeft size={20} /></Button>
-          <Input className="w-40 font-bold" type="month" value={month} onChange={(event) => setMonth(event.target.value)} aria-label="Select month" />
+          <Input className="w-36 font-bold sm:w-40" type="month" value={month} onChange={(event) => setMonth(event.target.value)} aria-label="Select month" />
           <Button variant="outline" size="icon" onClick={() => move(1)}><ChevronRight size={20} /></Button>
         </div>
       </div>
 
       <Card className="relative overflow-hidden bg-gradient-to-br from-[#071b3d] via-[#0f4ed8] to-[#2f7cff] text-white shadow-glow">
-        <div className="absolute bottom-0 right-0 h-32 w-32 rounded-full bg-white/10 blur-2xl" />
+        <div className="absolute bottom-0 right-0 h-24 w-24 rounded-full bg-white/10 blur-2xl sm:h-32 sm:w-32" />
         <CardHeader>
           <CardTitle className="text-white">Monthly Overview</CardTitle>
           <CardDescription className="text-blue-100">OT totals include OT pay, meal allowance, and transport allowance.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <div><p className="text-blue-100">This Month's Income</p><p className="mt-1 text-3xl font-bold">{money(summary.grossIncome, data.settings)}</p></div>
-            <div><p className="text-blue-100">Total OT Hours</p><p className="mt-1 text-3xl font-bold">{numberText(summary.otHours)} hrs</p></div>
-            <div><p className="text-blue-100">OT Days</p><p className="mt-1 text-3xl font-bold">{summary.otDayCount} days</p></div>
-            <div><p className="text-blue-100">Total OT Income</p><p className="mt-1 text-3xl font-bold">{money(summary.otIncome, data.settings)}</p></div>
+          <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
+            <div><p className="text-xs text-blue-100 sm:text-base">Income</p><p className="mt-1 text-xl font-bold sm:text-3xl">{money(summary.grossIncome, data.settings)}</p></div>
+            <div><p className="text-xs text-blue-100 sm:text-base">OT Hours</p><p className="mt-1 text-xl font-bold sm:text-3xl">{numberText(summary.otHours)} hrs</p></div>
+            <div><p className="text-xs text-blue-100 sm:text-base">OT Days</p><p className="mt-1 text-xl font-bold sm:text-3xl">{summary.otDayCount} days</p></div>
+            <div><p className="text-xs text-blue-100 sm:text-base">OT Income</p><p className="mt-1 text-xl font-bold sm:text-3xl">{money(summary.otIncome, data.settings)}</p></div>
           </div>
         </CardContent>
       </Card>
 
-      <details className="rounded-[26px] border border-white/80 bg-white/95 p-5 shadow-soft ring-1 ring-slate-200/50">
-        <summary className="cursor-pointer text-xl font-bold text-slate-950">Quick Fill Weekdays</summary>
-        <div className="mt-5 grid gap-4 md:grid-cols-[1fr_1fr_2fr_auto] md:items-end">
+      <details className="rounded-2xl border border-white/80 bg-white/95 p-4 shadow-soft ring-1 ring-slate-200/50 sm:rounded-[26px] sm:p-5">
+        <summary className="cursor-pointer text-base font-bold text-slate-950 sm:text-xl">Quick Fill Weekdays</summary>
+        <div className="mt-4 grid gap-3 sm:mt-5 sm:gap-4 md:grid-cols-[1fr_1fr_2fr_auto] md:items-end">
           <label className="text-sm font-semibold text-slate-700">Monday to Friday OT<Input type="number" min="0" step="0.5" value={weekHours} onChange={(event) => setWeekHours(Number(event.target.value))} /></label>
           <label className="text-sm font-semibold text-slate-700">OT Type<Select value={weekType} onChange={(event) => setWeekType(event.target.value as DailyWorkLog['otType'])}><option value="weekday">1.5x OT</option><option value="holiday">2x OT</option><option value="special">3x OT</option></Select></label>
           <label className="text-sm font-semibold text-slate-700">Work Note<Input value={weekNote} onChange={(event) => setWeekNote(event.target.value)} placeholder="e.g. support line" /></label>
@@ -151,11 +151,11 @@ export function CalendarPage({ data, setData, month, setMonth, notify }: PagePro
       </details>
 
       <Card>
-        <div className="mb-3 grid grid-cols-7 gap-2 text-center text-sm font-bold text-muted-foreground">
+        <div className="mb-2 grid grid-cols-7 gap-1 text-center text-[11px] font-bold text-muted-foreground sm:mb-3 sm:gap-2 sm:text-sm">
           {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => <div key={day}>{day}</div>)}
         </div>
-        <div className="grid grid-cols-7 gap-2">
-          {leadingBlanks.map((_, index) => <div key={`blank-${index}`} className="min-h-24 rounded-2xl bg-transparent" />)}
+        <div className="grid grid-cols-7 gap-1 sm:gap-2">
+          {leadingBlanks.map((_, index) => <div key={`blank-${index}`} className="min-h-16 rounded-2xl bg-transparent sm:min-h-24" />)}
           {days.map((day) => {
             const date = format(day, 'yyyy-MM-dd')
             const log = logsByDate.get(date)
@@ -166,23 +166,23 @@ export function CalendarPage({ data, setData, month, setMonth, notify }: PagePro
                 key={date}
                 onClick={() => openDay(date)}
                 className={cn(
-                  'min-h-28 rounded-[24px] border p-3 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-ring md:min-h-32',
+                  'min-h-16 rounded-xl border p-1.5 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-ring sm:min-h-28 sm:rounded-[24px] sm:p-3 md:min-h-32',
                   dayTone(log?.otHours),
                   isToday(day) ? 'border-blue-500 ring-2 ring-blue-100' : 'border-border',
                   selected && 'border-navy ring-2 ring-navy/20',
                 )}
               >
                 <div className="flex items-start justify-between gap-1">
-                  <span className="text-xl font-bold text-slate-950">{format(day, 'd')}</span>
-                  {log?.workNote ? <span className="h-2.5 w-2.5 rounded-full bg-purple-500" title="Has note" /> : null}
+                  <span className="text-sm font-bold text-slate-950 sm:text-xl">{format(day, 'd')}</span>
+                  {log?.workNote ? <span className="h-1.5 w-1.5 rounded-full bg-purple-500 sm:h-2.5 sm:w-2.5" title="Has note" /> : null}
                 </div>
                 {log ? (
-                  <div className="mt-3 space-y-1">
-                    <p className="text-base font-bold text-slate-800">OT {numberText(log.otHours)} hrs</p>
-                    <p className="text-sm font-semibold text-emerald-700">{money(pay, data.settings)}</p>
+                  <div className="mt-1 space-y-0.5 sm:mt-3 sm:space-y-1">
+                    <p className="text-[11px] font-bold leading-tight text-slate-800 sm:text-base">OT {numberText(log.otHours)}</p>
+                    <p className="truncate text-[10px] font-semibold text-emerald-700 sm:text-sm">{money(pay, data.settings)}</p>
                   </div>
                 ) : (
-                  <p className="mt-4 text-sm font-medium text-muted-foreground">Tap to log</p>
+                  <p className="mt-4 hidden text-sm font-medium text-muted-foreground sm:block">Tap to log</p>
                 )}
               </button>
             )
@@ -192,15 +192,15 @@ export function CalendarPage({ data, setData, month, setMonth, notify }: PagePro
 
       <Dialog open={!!editing} title={editing ? `Log OT for ${thaiDate(editing.date)}` : ''} description="Daily total includes OT pay, meal allowance, and transport allowance." onClose={() => setEditing(null)}>
         {editing ? (
-          <div className="space-y-5">
+          <div className="space-y-4 sm:space-y-5">
             <div>
-              <p className="mb-3 text-sm font-semibold text-slate-700">OT Hours</p>
-              <div className="grid grid-cols-[56px_1fr_56px] items-center gap-3">
+              <p className="mb-2 text-sm font-semibold text-slate-700 sm:mb-3">OT Hours</p>
+              <div className="grid grid-cols-[48px_1fr_48px] items-center gap-2 sm:grid-cols-[56px_1fr_56px] sm:gap-3">
                 <Button variant="outline" size="icon" onClick={() => set('otHours', Math.max(0, editing.otHours - 0.5))}><Minus size={22} /></Button>
-                <div className="rounded-2xl bg-blue-50 py-5 text-center text-5xl font-bold tracking-tight text-primary">{numberText(editing.otHours)}</div>
+                <div className="rounded-2xl bg-blue-50 py-3 text-center text-3xl font-bold tracking-tight text-primary sm:py-5 sm:text-5xl">{numberText(editing.otHours)}</div>
                 <Button variant="outline" size="icon" onClick={() => set('otHours', editing.otHours + 0.5)}><Plus size={22} /></Button>
               </div>
-              <div className="mt-3 grid grid-cols-5 gap-2">
+              <div className="mt-2 grid grid-cols-5 gap-1.5 sm:mt-3 sm:gap-2">
                 {[0, 1, 2, 3, 4].map((hour) => <Button key={hour} variant={editing.otHours === hour ? 'default' : 'outline'} size="sm" onClick={() => set('otHours', hour)}>{hour} hrs</Button>)}
               </div>
             </div>
@@ -216,15 +216,15 @@ export function CalendarPage({ data, setData, month, setMonth, notify }: PagePro
 
             <label className="block text-sm font-semibold text-slate-700">Work Note<Textarea value={editing.workNote} onChange={(event) => set('workNote', event.target.value)} placeholder="What did you work on? e.g. report, support line, meeting" /></label>
 
-            <div className="rounded-[24px] bg-emerald-50 p-4">
+            <div className="rounded-2xl bg-emerald-50 p-3 sm:rounded-[24px] sm:p-4">
               <p className="text-base font-bold text-emerald-800">Today's Calculation</p>
-              <div className="mt-3 space-y-2 text-sm text-emerald-950">
+              <div className="mt-2 grid gap-1.5 text-xs text-emerald-950 sm:mt-3 sm:space-y-2 sm:text-sm">
                 <p className="flex justify-between gap-3"><span>Hourly Rate</span><b>{money(selectedOt?.hourlyRate ?? 0, data.settings)}</b></p>
                 <p className="flex justify-between gap-3"><span>OT Pay</span><b>{money(selectedOt?.otBasePay ?? 0, data.settings)}</b></p>
                 <p className="flex justify-between gap-3"><span>Meal Allowance</span><b>{money(selectedOt?.mealAllowance ?? 0, data.settings)}</b></p>
                 <p className="flex justify-between gap-3"><span>Transport Allowance</span><b>{money(selectedOt?.transportAllowance ?? 0, data.settings)}</b></p>
               </div>
-              <p className="mt-3 border-t border-emerald-200 pt-3 text-3xl font-bold text-emerald-800">Today's Total {money(selectedOt?.totalOtIncome ?? 0, data.settings)}</p>
+              <p className="mt-2 border-t border-emerald-200 pt-2 text-xl font-bold text-emerald-800 sm:mt-3 sm:pt-3 sm:text-3xl">Today's Total {money(selectedOt?.totalOtIncome ?? 0, data.settings)}</p>
             </div>
 
             <div className="grid gap-2 sm:grid-cols-2">
@@ -232,7 +232,7 @@ export function CalendarPage({ data, setData, month, setMonth, notify }: PagePro
               <Button variant="secondary" onClick={() => saveLog({ ...editing, otHours: 0, updatedAt: new Date().toISOString() })}>No OT Today</Button>
             </div>
 
-            <div className="sticky bottom-0 -mx-6 -mb-6 grid gap-2 border-t border-border bg-white p-6 sm:grid-cols-3">
+            <div className="sticky bottom-0 -mx-4 -mb-4 grid gap-2 border-t border-border bg-white p-4 sm:-mx-6 sm:-mb-6 sm:grid-cols-3 sm:p-6">
               <Button size="lg" onClick={() => saveLog()}><Save size={20} />Save</Button>
               <Button size="lg" variant="destructive" onClick={deleteLog}><Trash2 size={20} />Delete This Day</Button>
               <Button size="lg" variant="outline" onClick={() => setEditing(null)}>Cancel</Button>

@@ -133,11 +133,11 @@ export function Budget({ data, setData, month, setMonth, notify, onNavigate }: P
   }
 
   return (
-    <div className="space-y-7">
-      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+    <div className="space-y-4 sm:space-y-7">
+      <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">Budget</h2>
-          <p className="mt-2 text-muted-foreground">Plan spending by income percentage and track actual expenses.</p>
+          <h2 className="text-2xl font-black tracking-tight text-slate-950 sm:text-4xl">Budget</h2>
+          <p className="mt-1 text-sm text-muted-foreground sm:mt-2 sm:text-base">Plan spending by income percentage.</p>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="icon" onClick={() => move(-1)}><ChevronLeft size={20} /></Button>
@@ -147,7 +147,7 @@ export function Budget({ data, setData, month, setMonth, notify, onNavigate }: P
       </div>
 
       <Card className="relative overflow-hidden border-emerald-100 bg-gradient-to-br from-emerald-50 via-white to-blue-50 shadow-glow">
-        <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-emerald-200/35 blur-2xl" />
+        <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-emerald-200/35 blur-2xl sm:h-44 sm:w-44" />
         <MiniChartIllustration className="opacity-15" />
         <CardHeader className="relative z-10">
           <Badge tone={summary.allocationStatus.status === 'balanced' ? 'green' : summary.allocationStatus.status === 'over' ? 'red' : 'orange'}>{summary.allocationStatus.message}</Badge>
@@ -155,51 +155,55 @@ export function Budget({ data, setData, month, setMonth, notify, onNavigate }: P
           <CardDescription>Income minus actual expenses</CardDescription>
         </CardHeader>
         <CardContent className="relative z-10">
-          <p className="text-5xl font-black tracking-tight text-navy sm:text-6xl">{money(summary.moneyLeft, data.settings)}</p>
-          <div className="mt-5 flex flex-wrap gap-3">
-            <Button size="lg" onClick={() => setExpense(freshExpense(month))}><Plus size={22} />Add Expense</Button>
-            <Button variant="secondary" size="lg" onClick={applyRecurring}>Apply Recurring</Button>
-            <Button variant="outline" size="lg" onClick={() => onNavigate?.('settings')}>Edit Allocation</Button>
+          <p className="text-4xl font-black tracking-tight text-navy sm:text-6xl">{money(summary.moneyLeft, data.settings)}</p>
+          <div className="mt-3 grid grid-cols-2 gap-2 text-sm sm:mt-5 sm:flex sm:flex-wrap sm:gap-3">
+            <div className="rounded-2xl bg-white/70 p-3"><p className="text-muted-foreground">Safe Today</p><b className="text-emerald-700">{money(summary.safeToSpendToday, data.settings)}</b></div>
+            <div className="rounded-2xl bg-white/70 p-3"><p className="text-muted-foreground">Spent</p><b className="text-amber-700">{money(summary.totalSpent, data.settings)}</b></div>
+          </div>
+          <div className="mt-3 flex flex-wrap gap-2 sm:mt-5 sm:gap-3">
+            <Button onClick={() => setExpense(freshExpense(month))}><Plus size={18} />Add Expense</Button>
+            <Button variant="secondary" onClick={applyRecurring}>Apply Recurring</Button>
+            <Button variant="outline" onClick={() => onNavigate?.('settings')}>Edit Allocation</Button>
           </div>
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
         <StatCard title="Monthly Income" value={money(summary.monthlyIncome, data.settings)} sub="Salary + OT + extra pay" icon={WalletCards} tone="green" />
         <StatCard title="Total Spent" value={money(summary.totalSpent, data.settings)} sub="Actual expenses this month" icon={Receipt} tone="orange" />
         <StatCard title="Planned Budget" value={money(summary.plannedBudget, data.settings)} sub={`${numberText(summary.totalAllocationPercent)}% allocated`} icon={WalletCards} tone="blue" />
         <StatCard title="Safe to Spend Today" value={money(summary.safeToSpendToday, data.settings)} sub="Spending categories only" icon={Receipt} tone="purple" />
       </div>
 
-      <div className="grid gap-4 xl:grid-cols-2">
+      <div className="grid gap-3 sm:gap-4 xl:grid-cols-2">
         {summary.categories.map((category) => (
           <button
             key={category.categoryId}
-            className="rounded-[24px] border border-border bg-white p-5 text-left shadow-soft transition hover:-translate-y-0.5 hover:shadow-lg"
+            className="rounded-2xl border border-border bg-white p-3 text-left shadow-soft transition hover:-translate-y-0.5 hover:shadow-lg sm:rounded-[24px] sm:p-5"
             onClick={() => {
               setSelectedCategoryId(category.categoryId)
               setAllocationDraft(category.allocationPercent)
             }}
           >
-            <div className="flex items-start justify-between gap-4">
+            <div className="flex items-start justify-between gap-3 sm:gap-4">
               <div>
                 <div className="flex items-center gap-3">
                   <IconBadge icon={categoryIcon(category.categoryName)} tone={typeTone(category.categoryType)} />
                   <div>
-                    <p className="text-xl font-bold text-slate-950">{category.categoryName}</p>
-                    <p className="mt-1 text-muted-foreground">{numberText(category.allocationPercent)}% of income</p>
+                    <p className="text-base font-bold text-slate-950 sm:text-xl">{category.categoryName}</p>
+                    <p className="mt-0.5 text-xs text-muted-foreground sm:mt-1 sm:text-base">{numberText(category.allocationPercent)}% of income</p>
                   </div>
                 </div>
               </div>
               <Badge tone={statusTone(category.status)}>{category.status === 'over' ? 'Over' : category.status === 'warning' ? 'Near limit' : 'Healthy'}</Badge>
             </div>
-            <div className="mt-5 h-3 overflow-hidden rounded-full bg-slate-100">
+            <div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-100 sm:mt-5 sm:h-3">
               <div className={`h-full rounded-full ${progressTone(category.status)}`} style={{ width: `${Math.min(100, category.usedPercent)}%` }} />
             </div>
-            <div className="mt-5 grid grid-cols-3 gap-3 text-sm">
-              <div><p className="text-muted-foreground">Budget</p><p className="mt-1 text-lg font-bold">{money(category.budgetAmount, data.settings)}</p></div>
-              <div><p className="text-muted-foreground">Spent</p><p className="mt-1 text-lg font-bold">{money(category.spentAmount, data.settings)}</p></div>
-              <div><p className="text-muted-foreground">{category.remainingAmount >= 0 ? 'Left' : 'Over'}</p><p className={`mt-1 text-lg font-bold ${category.remainingAmount < 0 ? 'text-red-600' : 'text-emerald-700'}`}>{money(Math.abs(category.remainingAmount), data.settings)}</p></div>
+            <div className="mt-3 grid grid-cols-3 gap-2 text-xs sm:mt-5 sm:gap-3 sm:text-sm">
+              <div><p className="text-muted-foreground">Budget</p><p className="mt-0.5 text-sm font-bold sm:mt-1 sm:text-lg">{money(category.budgetAmount, data.settings)}</p></div>
+              <div><p className="text-muted-foreground">Spent</p><p className="mt-0.5 text-sm font-bold sm:mt-1 sm:text-lg">{money(category.spentAmount, data.settings)}</p></div>
+              <div><p className="text-muted-foreground">{category.remainingAmount >= 0 ? 'Left' : 'Over'}</p><p className={`mt-0.5 text-sm font-bold sm:mt-1 sm:text-lg ${category.remainingAmount < 0 ? 'text-red-600' : 'text-emerald-700'}`}>{money(Math.abs(category.remainingAmount), data.settings)}</p></div>
             </div>
           </button>
         ))}

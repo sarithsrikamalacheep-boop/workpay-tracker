@@ -13,8 +13,8 @@ export function IconBadge({ icon: Icon, tone = 'blue', className = '' }: { icon:
     slate: 'bg-slate-200 text-slate-700 ring-slate-300',
   }
   return (
-    <span className={cn('inline-grid h-12 w-12 shrink-0 place-items-center rounded-2xl ring-1', styles[tone], className)}>
-      <Icon size={24} strokeWidth={2.4} />
+    <span className={cn('inline-grid h-10 w-10 shrink-0 place-items-center rounded-xl ring-1 sm:h-12 sm:w-12 sm:rounded-2xl', styles[tone], className)}>
+      <Icon className="h-5 w-5 sm:h-6 sm:w-6" strokeWidth={2.4} />
     </span>
   )
 }

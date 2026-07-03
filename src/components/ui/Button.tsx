@@ -18,10 +18,10 @@ export function Button({ variant = 'default', size = 'default', className = '', 
     destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
   }
   const sizes = {
-    default: 'min-h-12 px-5 py-3 text-base',
-    sm: 'min-h-10 px-3 py-2 text-sm',
-    lg: 'min-h-14 px-6 py-4 text-lg',
-    icon: 'h-12 w-12 p-0',
+    default: 'min-h-11 px-4 py-2.5 text-sm sm:min-h-12 sm:px-5 sm:py-3 sm:text-base',
+    sm: 'min-h-9 px-3 py-1.5 text-xs sm:min-h-10 sm:py-2 sm:text-sm',
+    lg: 'min-h-12 px-5 py-3 text-base sm:min-h-14 sm:px-6 sm:py-4 sm:text-lg',
+    icon: 'h-11 w-11 p-0 sm:h-12 sm:w-12',
   }
   return (
     <button
